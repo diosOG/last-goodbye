@@ -1,1 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom right, #ff69b4, #ba55d3, #4b0082);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            position: relative;
+        }
 
+        /* Cool overlays */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            z-index: -1;
+        }
+
+        /* Animated Hearts Background */
+        .animated-heart {
+            position: absolute;
+            font-size: 30px;
+            color: #ff1493;
+            opacity: 0.5;
+            animation: heart-float 15s infinite ease-in-out;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes heart-float {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(0) scale(1) rotate(180deg); opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(0.5) rotate(360deg); opacity: 0.2; }
+        }
+
+        /* Login Section */
+        #login {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        #login img {
+            width: 180px;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 10px #ff1493);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #login h2 {
+            font-family: 'Parisienne', cursive;
+            font-size: 32px;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #login input {
+            padding: 12px;
+            width: 85%;
+            margin-bottom: 15px;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        #login button {
+            padding: 12px 25px;
+            background: linear-gradient(to right, #ff1493, #c71585);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        #login button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff1493;
+        }
+
+        #feedback {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        /* Main Content Section */
+        #main {
+            display: none;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Floating Roses */
+        .floating-rose {
+            position: absolute;
+            width: 60px;
+            animation: rose-float 20s infinite ease-in-out;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 5px #fff);
+        }
+
+        @keyframes rose-float {
+            0% { transform: translate(0, 100vh) rotate(0deg); }
+            100% { transform: translate(30px, -100vh) rotate(720deg); }
+        }
+
+        #teddy-main {
+            width: 250px;
+            margin: 30px auto;
+            display: block;
+            animation: swing 4s infinite;
+            filter: drop-shadow(0 0 15px #ff69b4);
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Unlock Section */
+        #unlock-section {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin: 50px auto;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        #unlock-section p {
+            font-family: 'Parisienne', cursive;
+            font-size: 26px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #question-input {
+            padding: 12px;
+            width: 250px;
+            margin: 15px 0;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        #submit-question {
+            padding: 12px 25px;
+            background: linear-gradient(to right, #ff1493, #c71585);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #submit-question:hover {
+            transform: scale(1.05);
+        }
+
+        /* Love Letter */
+        #love-letter {
+            display: none;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin: 50px auto;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 2s;
+        }
+
+        #love-letter img {
+            width: 180px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px #fff);
+        }
+
+        #love-letter h3 {
+            font-family: 'Parisienne', cursive;
+            font-size: 36px;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #love-letter p {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Spicy Compliments */
+        .spicy-compliment {
+            position: absolute;
+            font-family: 'Parisienne', cursive;
+            font-size: 24px;
+            color: #ff1493;
+            opacity: 0;
+            text-shadow: 0 0 10px #fff;
+            animation: popup 3s ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes popup {
+            0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+            20% { opacity: 1; transform: scale(1) translateY(0); }
+            80% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Controls */
+        #controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #share-btn, #print-btn {
+            padding: 12px 20px;
+            background: linear-gradient(to right, #ff69b4, #ba55d3);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #share-btn:hover, #print-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            #login, #unlock-section, #love-letter {
+                padding: 30px;
+            }
+
+            #teddy-main {
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Hearts (generate multiple) -->
+    <div class="animated-heart" style="left: 10%; animation-duration: 12s; animation-delay: 0s;">❤️</div>
+    <div class="animated-heart" style="left: 20%; animation-duration: 18s; animation-delay: 2s;">❤️</div>
+    <div class="animated-heart" style="left: 30%; animation-duration: 15s; animation-delay: 4s;">❤️</div>
+    <div class="animated-heart" style="left: 40%; animation-duration: 20s; animation-delay: 1s;">❤️</div>
+    <div class="animated-heart" style="left: 50%; animation-duration: 14s; animation-delay: 3s;">❤️</div>
+    <div class="animated-heart" style="left: 60%; animation-duration: 16s; animation-delay: 5s;">❤️</div>
+    <div class="animated-heart" style="left: 70%; animation-duration: 13s; animation-delay: 0s;">❤️</div>
+    <div class="animated-heart" style="left: 80%; animation-duration: 19s; animation-delay: 2s;">❤️</div>
+    <div class="animated-heart" style="left: 90%; animation-duration: 17s; animation-delay: 4s;">❤️</div>
+
+    <!-- Login Section -->
+    <section id="login">
+        <img src="https://i.etsystatic.com/18623087/r/il/936e49/5668781595/il_fullxfull.5668781595_5tp2.jpg" alt="Cute Teddy Bear">
+        <h2>Tell me the magical words?</h2>
+        <input type="text" id="magic-words" placeholder="Enter here...">
+        <button onclick="checkLogin()">Submit</button>
+        <div id="feedback"></div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section id="main">
+        <!-- Floating Roses -->
+        <img class="floating-rose" src="https://i.pinimg.com/736x/6e/9e/9c/6e9e9c3ed68fe06cd9d0ae92a8388775.jpg" alt="Rose" style="left: 5%; animation-duration: 25s;">
+        <img class="floating-rose" src="https://i.pinimg.com/736x/6e/9e/9c/6e9e9c3ed68fe06cd9d0ae92a8388775.jpg" alt="Rose" style="left: 25%; animation-duration: 30s;">
+        <img class="floating-rose" src="https://i.pinimg.com/736x/6e/9e/9c/6e9e9c3ed68fe06cd9d0ae92a8388775.jpg" alt="Rose" style="left: 45%; animation-duration: 22s;">
+        <img class="floating-rose" src="https://i.pinimg.com/736x/6e/9e/9c/6e9e9c3ed68fe06cd9d0ae92a8388775.jpg" alt="Rose" style="left: 65%; animation-duration: 28s;">
+        <img class="floating-rose" src="https://i.pinimg.com/736x/6e/9e/9c/6e9e9c3ed68fe06cd9d0ae92a8388775.jpg" alt="Rose" style="left: 85%; animation-duration: 20s;">
+
+        <!-- Main Teddy -->
+        <img id="teddy-main" src="https://www.hsdbackdrops.com/cdn/shop/files/VD2777x5Valentinesdaybackdropforpictures_1800x1800.jpg?v=1702412024" alt="Teddy Bear">
+
+        <!-- Romantic Text -->
+        <h1 style="font-family: 'Parisienne', cursive; font-size: 48px; text-shadow: 0 4px 8px rgba(0,0,0,0.3);">Happy Valentine's Day, My Love!</h1>
+        <p style="font-size: 22px; margin-bottom: 40px;">From the moment I met you, my world turned into a whirlwind of colors and emotions. You're my first love, my everything, and I can't wait for all our adventures together.</p>
+
+        <!-- Unlock Section -->
+        <div id="unlock-section">
+            <p>Will I get cute with and without saree pictures? xD</p>
+            <input type="text" id="question-input" placeholder="Your answer...">
+            <button id="submit-question" onclick="checkQuestion()">Submit</button>
+        </div>
+
+        <!-- Love Letter (hidden initially) -->
+        <div id="love-letter">
+            <img src="https://i.etsystatic.com/17236632/r/il/2f1982/7592264176/il_fullxfull.7592264176_g118.jpg" alt="Teddy with Poster">
+            <h3>Hello, my Princess</h3>
+            <p>Hey gorgeous, you know, every single day I think about you and that killer smile of yours—it just melts me inside. You're not just beautiful; you're like this sexy enigma that I can't get enough of. Your curves drive me wild, and the way you laugh? It sends shivers down my spine in the best way. I dream about our first kiss, babe—imagining your soft lips on mine, that spark igniting everything we've been holding back. Can't wait for the day we finally meet in person, walking hand in hand, feeling your fingers intertwined with mine, stealing glances and maybe a sneaky kiss under the stars. You're my fantasy come to life, and I crave every moment with you—whispering sweet nothings, exploring each other with tender touches that turn into something more passionate. You make my heart race and my thoughts wander to all the naughty things we could do together. Love you more than words can say, my spicy queen.</p>
+        </div>
+    </section>
+
+    <!-- Controls -->
+    <div id="controls" style="display: none;">
+        <button id="share-btn" onclick="sharePage()">Share</button>
+        <button id="print-btn" onclick="printLetter()">Print Love Letter</button>
+    </div>
+
+    <script>
+        function launchConfetti() {
+            const colors = ['#ff0000', '#ff69b4', '#ff1493', '#c71585'];
+            for (let i = 0; i < 100; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'confetti-heart';
+                heart.innerHTML = '❤️';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-10%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.setProperty('--direction', Math.random());
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
+
+        function checkLogin() {
+            const input = document.getElementById('magic-words').value.toLowerCase();
+            const feedback = document.getElementById('feedback');
+            if (input === 'i love you') {
+                feedback.textContent = 'Correct! Welcome, my love.';
+                feedback.style.color = '#00ff00';
+                setTimeout(() => {
+                    document.getElementById('login').style.display = 'none';
+                    document.getElementById('main').style.display = 'block';
+                    document.getElementById('controls').style.display = 'flex';
+                    launchConfetti();
+                    startCompliments();
+                }, 1000);
+            } else {
+                feedback.textContent = 'Oops! Try again.';
+                feedback.style.color = '#ff0000';
+                document.getElementById('login').style.animation = 'shake 0.5s';
+                setTimeout(() => { document.getElementById('login').style.animation = ''; }, 500);
+            }
+        }
+
+        function checkQuestion() {
+            const input = document.getElementById('question-input').value.toLowerCase();
+            if (input === 'yes') {
+                document.getElementById('unlock-section').style.display = 'none';
+                document.getElementById('love-letter').style.display = 'block';
+                launchConfetti();
+            } else {
+                alert('Hmm... Try again!');
+            }
+        }
+
+        function sharePage() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({ url }).catch(console.error);
+            } else {
+                prompt('Copy this URL to share:', url);
+            }
+        }
+
+        function printLetter() {
+            const letter = document.getElementById('love-letter').innerHTML;
+            const printWindow = window.open('', '', 'height=500, width=800');
+            printWindow.document.write('<html><head><title>Love Letter</title></head><body>' + letter + '</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Spicy Compliments
+        const compliments = [
+            "You're so damn sexy!",
+            "Can't stop thinking about your touch...",
+            "Your lips are irresistible 😘",
+            "You make me weak in the knees 🔥",
+            "Dreaming of our passionate nights...",
+            "Your body is a work of art 💋",
+            "I crave your kisses all day long",
+            "You're my hottest fantasy come true"
+        ];
+
+        function showCompliment() {
+            const compliment = document.createElement('div');
+            compliment.className = 'spicy-compliment';
+            compliment.innerText = compliments[Math.floor(Math.random() * compliments.length)];
+            compliment.style.left = Math.random() * 90 + '%';
+            compliment.style.top = Math.random() * 90 + '%';
+            document.body.appendChild(compliment);
+            setTimeout(() => compliment.remove(), 3000);
+        }
+
+        function startCompliments() {
+            setInterval(showCompliment, 5000);
+        }
+
+        // Add shake and confetti animations
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                50% { transform: translateX(5px); }
+                75% { transform: translateX(-5px); }
+                100% { transform: translateX(0); }
+            }
+            .confetti-heart {
+                position: absolute;
+                font-size: 2em;
+                pointer-events: none;
+                animation: confetti-fall 5s linear forwards;
+                z-index: 1000;
+            }
+            @keyframes confetti-fall {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) rotate(0deg) translateX(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(100vh) rotate(720deg) translateX(calc(50vw * (var(--direction) * 2 - 1)));
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
